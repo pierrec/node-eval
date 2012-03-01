@@ -16,7 +16,7 @@ It is published on node package manager (npm). To install, do:
 
 ```` javascript
 var _eval = require('eval')
-var res = _eval(content, filename, scope, noGlobals)
+var res = _eval(content /*, filename, scope, noGlobals */)
 ````
 
 The following options are available:
