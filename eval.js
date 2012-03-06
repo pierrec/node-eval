@@ -38,8 +38,8 @@ module.exports = function (content, filename, scope, noGlobals) {
   sandbox.global = sandbox
 
   // Evalutate the content with the given scope
-  vm.createScript(content, '')
-    .runInNewContext(sandbox)
+  if (typeof content === 'string') vm.createScript( content.replace(/^\#\!.*/, ''), '' )
+  vm.runInNewContext(sandbox)
 
   return sandbox.module.exports
 }
