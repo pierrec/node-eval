@@ -5,6 +5,16 @@
 This module is a simple way to evaluate a module content in the same way as require() but without loading it from a file. Effectively, it mimicks the javascript evil `eval` function but leverages Node's VM module instead.
 
 
+## Benefits
+
+Why would you be using the `eval` module over the native`require`? Most of the time `require` is fine but in some situations, I have found myself wishing for the following:
+
+* Ability to supply a context to a module
+* Ability to load the module file(s) from non node standard places
+
+Or simply to leverage JavaScript's `eval` but with sandboxing.
+
+
 ## Download
 
 It is published on node package manager (npm). To install, do:
