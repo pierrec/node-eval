@@ -1,4 +1,5 @@
 var vm = require('vm')
+var isBuffer = Buffer.isBuffer
 
 var requireLike = require('require-like')
 
@@ -15,7 +16,7 @@ function merge (a, b) {
 }
 
 // Return the exports/module.exports variable set in the content
-// Only content is required
+// content (String|VmScript): required
 module.exports = function (content, filename, scope, noGlobals) {
 	if (typeof filename === 'object') {
 		noGlobals = scope
@@ -37,9 +38,15 @@ module.exports = function (content, filename, scope, noGlobals) {
   sandbox.require = requireLike(module.parent.filename)
   sandbox.global = sandbox
 
+  if ( isBuffer(content) )
+    content = content.toString()
+  
   // Evalutate the content with the given scope
-  if (typeof content === 'string') vm.createScript( content.replace(/^\#\!.*/, ''), '' )
-  vm.runInNewContext(sandbox)
+  if (typeof content === 'string')
+    vm.createScript( content.replace(/^\#\!.*/, ''), '' )
+      .runInNewContext(sandbox)
+  else
+    content.runInNewContext(sandbox)
 
   return sandbox.module.exports
 }
