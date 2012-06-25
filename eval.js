@@ -21,6 +21,7 @@ module.exports = function (content, filename, scope, noGlobals) {
 	if (typeof filename === 'object') {
 		noGlobals = scope
 		scope = filename
+    filename = null
 	}
 
 	// Expose standard Node globals
@@ -35,7 +36,7 @@ module.exports = function (content, filename, scope, noGlobals) {
 
   sandbox.exports = exports
   sandbox.module = { exports: exports }
-  sandbox.require = requireLike(module.parent.filename)
+  sandbox.require = requireLike(filename || module.parent.filename)
   sandbox.global = sandbox
 
   if ( isBuffer(content) )
