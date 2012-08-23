@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/pierrec/node-eval.png)](http://travis-ci.org/pierrec/node-eval)
 # Eval - require() for module content!
 
 ## Overview
