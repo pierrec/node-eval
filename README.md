@@ -34,7 +34,7 @@ The following options are available:
 * `content` (__String__): the content to be evaluated
 * `filename` (__String__): optional dummy name to be given (used in stacktraces)
 * `scope` (__Object__): scope properties are provided as variables to the content
-* `noGlobals` (__Boolean__): allow/disallow global variables to be supplied to the content (default=true)
+* `noGlobals` (__Boolean__): allow/disallow global variables to be supplied to the content (default=false)
 
 
 ## Examples
