@@ -26,7 +26,7 @@ It is published on node package manager (npm). To install, do:
 
 ```` javascript
 var _eval = require('eval')
-var res = _eval(content /*, filename, scope, noGlobals */)
+var res = _eval(content /*, filename, scope, includeGlobals */)
 ````
 
 The following options are available:
@@ -34,7 +34,7 @@ The following options are available:
 * `content` (__String__): the content to be evaluated
 * `filename` (__String__): optional dummy name to be given (used in stacktraces)
 * `scope` (__Object__): scope properties are provided as variables to the content
-* `noGlobals` (__Boolean__): allow/disallow global variables to be supplied to the content (default=true)
+* `includeGlobals` (__Boolean__): allow/disallow global variables (and require) to be supplied to the content (default=true)
 
 
 ## Examples
@@ -47,10 +47,10 @@ var res = _eval('var x = 123; exports.x = x')
 res = _eval('module.exports = function () { return 123 }')
 // => res() === 123
 
-res = _eval('module.exports = require("events")')
+res = _eval('module.exports = require("events")', true)
 // => res === require('events')
 
-res = _eval('exports.x = process')
+res = _eval('exports.x = process', true)
 // => res.x === process
 ````
 

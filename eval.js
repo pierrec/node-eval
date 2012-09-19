@@ -17,26 +17,34 @@ function merge (a, b) {
 
 // Return the exports/module.exports variable set in the content
 // content (String|VmScript): required
-module.exports = function (content, filename, scope, noGlobals) {
-	if (typeof filename === 'object') {
-		noGlobals = scope
-		scope = filename
-    filename = null
+module.exports = function (content, filename, scope, includeGlobals) {
+	if (typeof filename !== 'string') {
+        if (typeof filename === 'object') {
+            includeGlobals = scope
+            scope = filename
+            filename = null
+        }
+        else if (typeof filename === 'boolean') {
+            includeGlobals = filename
+            scope = {}
+            filename = null
+        }
 	}
 
 	// Expose standard Node globals
   var sandbox = {}
   var exports = {}
 
-  if (!noGlobals)
+  if (includeGlobals) {
     merge(sandbox, global)
+    sandbox.require = requireLike(filename || module.parent.filename)
+  }
 
   if (typeof scope === 'object')
   	merge(sandbox, scope)
 
   sandbox.exports = exports
   sandbox.module = { exports: exports }
-  sandbox.require = requireLike(filename || module.parent.filename)
   sandbox.global = sandbox
 
   if ( isBuffer(content) )
@@ -44,8 +52,8 @@ module.exports = function (content, filename, scope, noGlobals) {
   
   // Evalutate the content with the given scope
   if (typeof content === 'string')
-    vm.createScript( content.replace(/^\#\!.*/, ''), '' )
-      .runInNewContext(sandbox)
+    vm.createScript( content.replace(/^\#\!.*/, ''), filename)
+      .runInNewContext(sandbox, filename)
   else
     content.runInNewContext(sandbox)
 
