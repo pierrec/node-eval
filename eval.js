@@ -32,10 +32,11 @@ module.exports = function (content, filename, scope, includeGlobals) {
   // Expose standard Node globals
   var sandbox = {}
   var exports = {}
+  var _filename = filename || module.parent.filename;
 
   if (includeGlobals) {
     merge(sandbox, global)
-    sandbox.require = requireLike(filename || module.parent.filename)
+    sandbox.require = requireLike(_filename)
   }
 
   if (typeof scope === 'object') {
@@ -43,7 +44,13 @@ module.exports = function (content, filename, scope, includeGlobals) {
   }
 
   sandbox.exports = exports
-  sandbox.module = { exports: exports }
+  sandbox.module = {
+    exports: exports,
+    filename: _filename,
+    id: _filename,
+    parent: module.parent,
+    require: sandbox.require || requireLike(_filename)
+  }
   sandbox.global = sandbox
 
   var options = {
