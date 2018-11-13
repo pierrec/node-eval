@@ -21,11 +21,11 @@ module.exports = function (content, filename, scope, includeGlobals) {
     if (typeof filename === 'object') {
       includeGlobals = scope
       scope = filename
-      filename = null
+      filename = ''
     } else if (typeof filename === 'boolean') {
       includeGlobals = filename
       scope = {}
-      filename = null
+      filename = ''
     }
   }
 
