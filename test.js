@@ -27,4 +27,8 @@ assert.throws(function () {
     _eval('require("fs")')
 })
 
+// Verify that the console is available when globals are passed
+res = _eval('exports.x = console', true)
+assert.deepEqual(res.x, console)
+
 console.log('All tests passed')

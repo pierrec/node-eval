@@ -36,6 +36,10 @@ module.exports = function (content, filename, scope, includeGlobals) {
 
   if (includeGlobals) {
     merge(sandbox, global)
+    // console is non-enumerable in node v10 and above
+    sandbox.console = global.console
+    // process is non-enumerable in node v12 and above
+    sandbox.process = global.process
     sandbox.require = requireLike(_filename)
   }
 
