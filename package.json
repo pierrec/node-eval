@@ -22,7 +22,7 @@
     "node": ">= 0.8"
   }
 , "dependencies": {
-    "@types/node": "14.0.23"
+    "@types/node": "*"
   , "require-like": ">= 0.1.1"
   }
 , "devDependencies": {
