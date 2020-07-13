@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { Script } from "vm";
 
 /**
