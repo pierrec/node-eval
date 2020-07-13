@@ -10,6 +10,7 @@
   , "url": "git://github.com/pierrec/node-eval.git"
   }
 , "main": "eval.js"
+, "types": "eval.d.ts"
 , "bugs": { "url" : "http://github.com/pierrec/node-eval/issues" }
 , "licenses":
   [ {
