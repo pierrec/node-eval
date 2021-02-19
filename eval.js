@@ -56,6 +56,7 @@ module.exports = function (content, filename, scope, includeGlobals) {
     require: sandbox.require || requireLike(_filename)
   }
   sandbox.global = sandbox
+  sandbox.URL = URL
 
   var options = {
     filename: filename,
