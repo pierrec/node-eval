@@ -40,6 +40,7 @@ module.exports = function (content, filename, scope, includeGlobals) {
     sandbox.console = global.console
     // process is non-enumerable in node v12 and above
     sandbox.process = global.process
+    sandbox.URL = global.URL
     sandbox.require = requireLike(_filename)
   }
 
@@ -56,7 +57,6 @@ module.exports = function (content, filename, scope, includeGlobals) {
     require: sandbox.require || requireLike(_filename)
   }
   sandbox.global = sandbox
-  sandbox.URL = URL
 
   var options = {
     filename: filename,
