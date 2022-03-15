@@ -5,7 +5,9 @@ var requireLike = require('require-like')
 
 function merge (a, b) {
   if (!a || !b) return a
-  var keys = Object.keys(b)
+  // Include all non-enumerable variables, including console (v10+),
+  // process (v12+), URL, etc.
+  var keys = Object.getOwnPropertyNames(b)
   for (var k, i = 0, n = keys.length; i < n; i++) {
     k = keys[i]
     a[k] = b[k]
@@ -36,11 +38,6 @@ module.exports = function (content, filename, scope, includeGlobals) {
 
   if (includeGlobals) {
     merge(sandbox, global)
-    // console is non-enumerable in node v10 and above
-    sandbox.console = global.console
-    // process is non-enumerable in node v12 and above
-    sandbox.process = global.process
-    sandbox.URL = global.URL
     sandbox.require = requireLike(_filename)
   }
 
