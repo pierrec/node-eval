@@ -13,6 +13,10 @@ function merge (a, b) {
   return a
 }
 
+var vmGlobals = new vm.Script('vmGlobals = Object.getOwnPropertyNames(globalThis)')
+  .runInNewContext()
+  .vmGlobals
+
 // Return the exports/module.exports variable set in the content
 // content (String|VmScript): required
 module.exports = function (content, filename, scope, includeGlobals) {
@@ -40,9 +44,6 @@ module.exports = function (content, filename, scope, includeGlobals) {
     // Merge all non-enumerable variables on `global`, including console (v10+),
     // process (v12+), URL, etc. We first filter out anything that's already in
     // the VM scope (i.e. those in the ES standard) so we don't have two copies
-    var vmGlobals = Object.getOwnPropertyNames(
-      new vm.Script("vmGlobals = globalThis").runInNewContext().vmGlobals
-    )
     Object.getOwnPropertyNames(global).forEach((name) => {
       if (!vmGlobals.includes(name)) {
         sandbox[name] = global[name]
