@@ -5,15 +5,16 @@ var requireLike = require('require-like')
 
 function merge (a, b) {
   if (!a || !b) return a
-  // Include all non-enumerable variables, including console (v10+),
-  // process (v12+), URL, etc.
-  var keys = Object.getOwnPropertyNames(b)
+  var keys = Object.keys(b)
   for (var k, i = 0, n = keys.length; i < n; i++) {
     k = keys[i]
     a[k] = b[k]
   }
   return a
 }
+
+var vmGlobals = new vm.Script('Object.getOwnPropertyNames(globalThis)')
+  .runInNewContext()
 
 // Return the exports/module.exports variable set in the content
 // content (String|VmScript): required
@@ -37,7 +38,19 @@ module.exports = function (content, filename, scope, includeGlobals) {
   var _filename = filename || module.parent.filename;
 
   if (includeGlobals) {
+    // Merge enumerable variables on `global`
     merge(sandbox, global)
+    // Merge all non-enumerable variables on `global`, including console (v10+),
+    // process (v12+), URL, etc. We first filter out anything that's already in
+    // the VM scope (i.e. those in the ES standard) so we don't have two copies
+    Object.getOwnPropertyNames(global).forEach((name) => {
+      if (!vmGlobals.includes(name)) {
+        sandbox[name] = global[name]
+      }
+    })
+    // `console` exists in VM scope, but we want to pipe the output to the
+    // process'
+    sandbox.console = console
     sandbox.require = requireLike(_filename)
   }
 
