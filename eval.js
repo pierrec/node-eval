@@ -48,6 +48,9 @@ module.exports = function (content, filename, scope, includeGlobals) {
         sandbox[name] = global[name]
       }
     })
+    // `console` exists in VM scope, but we want to pipe the output to the
+    // process'
+    sandbox.console = console
     sandbox.require = requireLike(_filename)
   }
 
