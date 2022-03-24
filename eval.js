@@ -13,9 +13,8 @@ function merge (a, b) {
   return a
 }
 
-var vmGlobals = new vm.Script('vmGlobals = Object.getOwnPropertyNames(globalThis)')
+var vmGlobals = new vm.Script('Object.getOwnPropertyNames(globalThis)')
   .runInNewContext()
-  .vmGlobals
 
 // Return the exports/module.exports variable set in the content
 // content (String|VmScript): required
