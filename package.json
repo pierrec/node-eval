@@ -12,12 +12,7 @@
 , "main": "eval.js"
 , "types": "eval.d.ts"
 , "bugs": { "url" : "http://github.com/pierrec/node-eval/issues" }
-, "licenses":
-  [ {
-      "type": "MIT"
-    , "url": "http://github.com/pierrec/node-eval/raw/master/LICENSE"
-    }
-  ]
+, "license": "MIT"
 , "engines": {
     "node": ">= 0.8"
   }
